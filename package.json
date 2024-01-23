@@ -8,5 +8,29 @@
     "createdAt": "2023-09-22T12:23:39.903Z",
     "version": "7.1.0",
     "commit": "d257c41694344460623eb1f1bb2a690bdfe33f83"
+  },
+  "dependencies": {
+    "axios": "^1.6.3",
+    "markdown-it": "^13.0.2",
+    "markdown-link-validator-api": "^0.1.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "jest": {
+      "collectCoverageFrom": ["src/**/*.js"],
+      "coverageReporters": ["lcov", "text"]
+    },
+    
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ]
   }
 }
