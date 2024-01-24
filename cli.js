@@ -35,9 +35,9 @@ if (command)
             colWidths: [30, 30, 10, 10]
           });
 
-          const linkPromises = result.links.map(async link => {
+          const linkPromises = result.links.map(link => {
             const linkText = link.text || 'No texto';
-            const { httpCode, statusMessage } = await obtenerCodigoHttp(link.url);
+            const { httpCode, statusMessage } = obtenerCodigoHttp(link.url);
             return [link.url, linkText, httpCode, statusMessage];
           });
 
@@ -57,10 +57,10 @@ if (command)
             colWidths: [30, 30, 10, 10]
           });
 
-          const linkPromises = result.links.map(async link => {
+          const linkPromises = result.links.map(link => {
             const linkText = link.text || 'No texto';
             const linkUrl = link.url || 'No links';
-            const { httpCode, statusMessage } = await obtenerCodigoHttp(link.url);
+            const { httpCode, statusMessage } = obtenerCodigoHttp(link.url);
             return [
               linkUrl,
               linkText,

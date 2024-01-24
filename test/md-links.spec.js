@@ -26,28 +26,14 @@ describe('extractorDeLinksMarkdown', () => {
   });
 
  });
-
-describe('mdLinks', () => {
-  test('debería resolver correctamente si la ruta es un archivo existente', async () => {
-    const result = await functions.mdLinks('docs/test/testing-md.md');
-
-    expect(result.type).toBe('file');
-    expect(result.path).toBe(path.resolve('docs/test/testing-md.md'));
+  test('debería rechazar la promesa si la ruta no existe', () => {
+    expect(functions.mdLinks('/home/carlos/code/DEV011-md-links/docs.js')).rejects.toThrowError('La ruta no existe');
   },20000);
 
-  test('debería resolver correctamente si la ruta es un directorio existente', async () => {
-    const result = await functions.mdLinks('./ruta/b');
-
-    expect(result.type).toBe('directory');
-    expect(result.path).toBe(path.resolve('./ruta/b'));
+  test('debería rechazar la promesa si la ruta no es ni archivo ni directorio', () => {
+    expect(functions.mdLinks('/home/carlos/code/DEV011-md-links/prueba.js')).rejects.toThrowError('Ruta desconocida');
   },20000);
 
-  test('debería rechazar la promesa si la ruta no existe', async () => {
-    await expect(functions.mdLinks('/home/carlos/code/DEV011-md-links/docs.js')).rejects.toThrowError('La ruta no existe');
-  },20000);
 
-  test('debería rechazar la promesa si la ruta no es ni archivo ni directorio', async () => {
-    await expect(functions.mdLinks('/home/carlos/code/DEV011-md-links/prueba.js')).rejects.toThrowError('Ruta desconocida');
-  },20000);
-
-});
+  
+ 

@@ -1,0 +1,11 @@
+describe('extractorDeLinksMarkdown', () => {
+  it('debería ser una función', () => {
+    expect(typeof functions.extractorDeLinksMarkdown).toBe('function');
+  });
+  it('debería extraer un solo enlace', () => {
+    const markdown = '[Google](https://www.google.com)';
+    const expected = [{ text: 'Google', url: 'https://www.google.com' }];
+    expect(functions.extractorDeLinksMarkdown(markdown)).toEqual(expected);
+  });
+
+ });

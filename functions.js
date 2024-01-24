@@ -48,7 +48,7 @@ const mdFiles = [];
   return mdFiles;
 }
 const mdLinks = (route = process.argv[2], options = {validate: false, stats: false}) => {
-  
+
   return new Promise((resolve, reject) => {
     const isAbsolute = path.isAbsolute(route);
     const absoluteRoute = isAbsolute ? route : path.resolve(route);
@@ -92,9 +92,9 @@ const mdLinks = (route = process.argv[2], options = {validate: false, stats: fal
     }
   });
 };
-async function obtenerCodigoHttp(url) {
+function obtenerCodigoHttp(url) {
   try {
-    const response = await axios.get(url);
+    const response = axios.get(url);
     return { httpCode: response.status, statusMessage: 'OK', response: response.data };
   } catch (error) {
     if (error.response) {
@@ -106,7 +106,7 @@ async function obtenerCodigoHttp(url) {
   }
 }
 
-const tablaDeDatos = async (links) => {
+const tablaDeDatos = (links) => {
   if (links.length === 0) { //Validación en caso de que no se encuentren enlaces 
     return colors.fail('No se encontraron links.');
   }
@@ -116,7 +116,7 @@ const tablaDeDatos = async (links) => {
   const brokenLinksSet = new Set();
 
   for (const link of links) {
-    const { httpCode } = await obtenerCodigoHttp(link.url);
+    const { httpCode } =  obtenerCodigoHttp(link.url);
     const parsedHttpCode = parseInt(httpCode);
 
     if (parsedHttpCode >= 200 && parsedHttpCode < 300) {
