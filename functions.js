@@ -31,7 +31,7 @@ const mdFiles = [];
     const href = path.join(dirPath, file); // Para cada elemento (archivo o directorio) crea la ruta completa.
 
     if (fs.statSync(href).isFile() && path.extname(href) === '.md') {
-      const mdContent = fs.readFileSync(href, 'utf-8');
+      const mdContent = fs.readFile(href, 'utf-8');
       if (typeof mdContent === 'string' && mdContent.trim() !== '') {
         const links = extractorDeLinksMarkdown(mdContent); // Extrae enlaces del archivo .md usando expresiones regulares
         mdFiles.push({
@@ -67,7 +67,7 @@ const mdLinks = (route = process.argv[2], options = {validate: false, stats: fal
         } else {
           if (stats.isFile()) {
             console.log(`La ruta "${absoluteRoute}" es un archivo.`);
-            const mdContent = fs.readFileSync(absoluteRoute, 'utf-8');
+            const mdContent = fs.readFile(absoluteRoute, 'utf-8');
 
             const links = extractorDeLinksMarkdown(mdContent);
             resolve({ type: 'file', path: absoluteRoute, content: mdContent, links: links });

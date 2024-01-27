@@ -1,10 +1,9 @@
 const functions = require('./functions.js');
-const init = async()=> {
+const mdLinks = ()=> {
   try {
-    const result = await functions.mdLinks('docs/test/testing-md.md', {validate: true, stats:true});
+    const result = functions.mdLinks('docs/test/testing-md.md', {validate: true, stats:true});
     console.log(result)
   } catch (error) {
-    console.log(error)
   }
 }
- init()
+ mdLinks()
