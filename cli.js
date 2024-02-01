@@ -3,7 +3,6 @@ const path = require('path');
 const colors = require("colors");
 const Table = require('cli-table');
 
-
 const command = process.argv[2];
 const validateOptionIndex = process.argv.indexOf('--validate');
 const statsOptionIndex = process.argv.indexOf('--stats');
@@ -15,7 +14,7 @@ colors.setTheme({
   fail: 'red',
   info: 'blue',
   warn: 'yellow',
-});
+});8
 
 if (command) 
   if (!hasValidateOption && !hasStatsOption) {
@@ -25,7 +24,7 @@ if (command)
     .then(result => {
       if (hasValidateOption) {
         if(!result.links.length){
-          console.log(colors.fail('No se econtro informacion'));
+          console.log(colors.fail('No se encontro informacion'));
           return
         } else if (result.type === 'file') {
           // Imprime la tabla de enlaces validados

@@ -26,13 +26,14 @@ function extractorDeLinksMarkdown(content) {
 
 function extractorDeArchivosMarkdown(dirPath) { 
 const mdFiles = [];
-
+const isAbsolute = path.isAbsolute(dirPath);
+const absoluteRoute = isAbsolute ? dirPath : path.resolve(dirPath);
   fs.readdirSync(dirPath).forEach((file) => { // Lee el contenido dentro del directorio y procesa cada archivo y directorio que pueda estar dentro de él.
     const href = path.join(dirPath, file); // Para cada elemento (archivo o directorio) crea la ruta completa.
 
     if (fs.statSync(href).isFile() && path.extname(href) === '.md') {
       const mdContent = fs.readFile(href, 'utf-8');
-      if (typeof mdContent === 'string' && mdContent.trim() !== '') {
+      if (typeof mdContent === 'string' && mdContent.trim() !== '') {/* se verifica el tipo de dato en caos de que sea de tipo string y al hacerle trim al string no sea un string vacio retorna*/
         const links = extractorDeLinksMarkdown(mdContent); // Extrae enlaces del archivo .md usando expresiones regulares
         mdFiles.push({
           path: href,
@@ -48,7 +49,6 @@ const mdFiles = [];
   return mdFiles;
 }
 const mdLinks = (route = process.argv[2], options = {validate: false, stats: false}) => {
-
   return new Promise((resolve, reject) => {
     const isAbsolute = path.isAbsolute(route);
     const absoluteRoute = isAbsolute ? route : path.resolve(route);
@@ -68,7 +68,6 @@ const mdLinks = (route = process.argv[2], options = {validate: false, stats: fal
           if (stats.isFile()) {
             console.log(`La ruta "${absoluteRoute}" es un archivo.`);
             const mdContent = fs.readFile(absoluteRoute, 'utf-8');
-
             const links = extractorDeLinksMarkdown(mdContent);
             resolve({ type: 'file', path: absoluteRoute, content: mdContent, links: links });
           } else if (stats.isDirectory()) {
@@ -92,6 +91,7 @@ const mdLinks = (route = process.argv[2], options = {validate: false, stats: fal
     }
   });
 };
+
 function obtenerCodigoHttp(url) {
   try {
     const response = axios.get(url);
@@ -107,6 +107,19 @@ function obtenerCodigoHttp(url) {
 }
 
 const tablaDeDatos = (links) => {
+  config = { 
+    columns: {
+      0: {
+        width: 20    // Column 0 of width 1
+      },
+      1: {
+        width: 20 
+      },
+      2: {
+        width: 20 
+      }
+    }
+  };
   if (links.length === 0) { //Validación en caso de que no se encuentren enlaces 
     return colors.fail('No se encontraron links.');
   }
@@ -129,7 +142,7 @@ const tablaDeDatos = (links) => {
   const uniqueValidLinks = uniqueValidLinksSet.size;
   const brokenLinks = brokenLinksSet.size;
 
-  // Definir nombres de propiedades y sus valores.
+  // Define nombres de propiedades y sus valores.
   console.log('Datos encontrados:');
   const statsData = [
     { name: 'Links totales', value: totalLinks },
@@ -138,6 +151,7 @@ const tablaDeDatos = (links) => {
 ];
 
 const statsTable = new Table(config);
+
 
 // Agrega cada propiedad y valor a la tabla.
 statsData.forEach(({ name, value }) => {

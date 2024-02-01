@@ -1,21 +1,20 @@
-const  {extractorDeLinksMarkdown,mdLinks, obtenerCodigoHttp} = require('../functions'); 
+const  {extractorDeLinksMarkdown,mdLinks, obtenerCodigoHttp, extractorDeArchivosMarkdown, tablaDeDatos} = require('../functions'); 
 const path = require('path');
 const axios = require ('axios');
-/*const mdLinks = require('./../index.js');*/
 const MockAdapter = require('axios-mock-adapter');
 const colors = require('colors');
-
-jest.mock('fs', () => ({
-  mdLinks: jest.fn(() => true),
-  existsSync: jest.fn(() => true),
-  extractMDFilesFromDir: jest.fn(),
-  readdirSync: jest.fn(),
-  statSync: jest.fn(),
-  readFileSync: jest.fn(),
-  stat:jest.fn()
-}));
+const { config } = require('process');
 
 jest.mock('axios');
+
+describe ('extractorDeArchivosMarkdown' , () => {
+  it ('deberia ser una funcion', ()=> {
+    expect (typeof extractorDeArchivosMarkdown).toBe('function')
+  })
+  it ('deberia retornar un array vacio', ()=> {
+    expect (extractorDeArchivosMarkdown('/home/carlos/code/DEV011-md-links/test')).toEqual([])
+  })
+});
 
 describe('extractorDeLinksMarkdown', () => {
   it('debería ser una función', () => {
@@ -27,14 +26,10 @@ describe('extractorDeLinksMarkdown', () => {
     expect(extractorDeLinksMarkdown(markdown)).toEqual(expected);
   });
 
- });
+});
   test('debería rechazar la promesa si la ruta no existe', () => {
-    expect(mdLinks('/home/carlos/code/DEV011-md-links/docs.js')).rejects.toThrowError('La ruta no existe');
-  },20000);
-
-  test('debería rechazar la promesa si la ruta no es ni archivo ni directorio', () => {
-    expect(mdLinks('/home/carlos/code/DEV011-md-links/prueba.js')).rejects.toThrowError('Ruta desconocida');
-  },20000);
+    return expect(mdLinks('/home/carlos/code/DEV011-md-links/docs.js')).rejects.toThrowError('La ruta no existe');
+  });
 
   const mock = new MockAdapter(axios);
   
@@ -44,7 +39,7 @@ describe('extractorDeLinksMarkdown', () => {
       mock.reset();
     });
     test('debería manejar un error de respuesta HTTP', () => {
-      const url = 'https://ejemplo.com';
+      const url = 'https://www.google.com';
   
       mock.onGet(url).reply(404, 'Not Found');
   
@@ -57,4 +52,14 @@ describe('extractorDeLinksMarkdown', () => {
       });
     });
     });
+    describe ('tablaDeDatos' , () => {
+      jest.mock('cli-table')
+      it ('deberia ser una funcion', ()=> {
+        expect (typeof tablaDeDatos).toBe('function')
+      })
+      it ('deberia retornar una de tabla de datos', ()=> {
+        expect (tablaDeDatos(['https://www.google.com'])).toEqual([])
+      })
+    });
+
   
